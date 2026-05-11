@@ -21,6 +21,7 @@ RUN apt-get update \
         libicu-dev \
         libonig-dev \
         libpq-dev \
+        libsqlite3-dev \
         libzip-dev \
         unzip \
         zip \
