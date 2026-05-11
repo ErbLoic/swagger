@@ -4,7 +4,7 @@ set -e
 export PORT="${PORT:-10000}"
 
 sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
-sed -i "s/<VirtualHost \*:\${PORT}>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
+sed -i "s/__PORT__/${PORT}/g" /etc/apache2/sites-available/000-default.conf
 
 mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache database

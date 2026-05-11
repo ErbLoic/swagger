@@ -9,18 +9,6 @@ COPY resources ./resources
 COPY vite.config.js ./
 RUN npm run build
 
-FROM composer:2 AS vendor
-
-WORKDIR /app
-
-COPY composer.json composer.lock ./
-RUN composer install \
-    --no-dev \
-    --no-interaction \
-    --prefer-dist \
-    --optimize-autoloader \
-    --no-scripts
-
 FROM php:8.3-apache
 
 WORKDIR /var/www/html
@@ -43,15 +31,24 @@ RUN apt-get update \
         opcache \
         pdo_mysql \
         pdo_pgsql \
+        pdo_sqlite \
         zip \
     && a2enmod rewrite headers \
     && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-scripts
 
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/start.sh /usr/local/bin/start.sh
 
 COPY . .
-COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
 
 RUN chmod +x /usr/local/bin/start.sh \
