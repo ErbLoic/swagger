@@ -1,14 +1,3 @@
-FROM node:22-alpine AS assets
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY resources ./resources
-COPY vite.config.js ./
-RUN npm run build
-
 FROM php:8.3-apache
 
 WORKDIR /var/www/html
@@ -50,7 +39,6 @@ COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/start.sh /usr/local/bin/start.sh
 
 COPY . .
-COPY --from=assets /app/public/build ./public/build
 
 RUN chmod +x /usr/local/bin/start.sh \
     && chown -R www-data:www-data storage bootstrap/cache database \
