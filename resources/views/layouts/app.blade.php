@@ -7,25 +7,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-body-tertiary">
     @auth
-        <div class="app-shell">
+        <div class="app-shell min-vh-100">
             <aside class="sidebar">
-                <div class="brand">API Console</div>
-                <nav class="nav">
-                    <a href="{{ route('admin.dashboard') }}" @class(['active' => request()->routeIs('admin.dashboard')])>Dashboard</a>
-                    <a href="{{ route('admin.apis.index') }}" @class(['active' => request()->routeIs('admin.apis.*')])>APIs</a>
-                    <a href="{{ route('admin.personal-projects.index') }}" @class(['active' => request()->routeIs('admin.personal-projects.*')])>Projets perso</a>
-                    <a href="{{ route('admin.postman.index') }}" @class(['active' => request()->routeIs('admin.postman.*')])>Postman interne</a>
+                <div class="brand d-flex align-items-center gap-2">
+                    <span class="brand-mark">API</span>
+                    <span>Console</span>
+                </div>
+                <nav class="nav flex-column gap-2">
+                    <a href="{{ route('admin.dashboard') }}" @class(['nav-link', 'active' => request()->routeIs('admin.dashboard')])>Dashboard</a>
+                    <a href="{{ route('admin.apis.index') }}" @class(['nav-link', 'active' => request()->routeIs('admin.apis.*')])>APIs</a>
+                    <a href="{{ route('admin.personal-projects.index') }}" @class(['nav-link', 'active' => request()->routeIs('admin.personal-projects.*')])>Projets perso</a>
+                    <a href="{{ route('admin.postman.index') }}" @class(['nav-link', 'active' => request()->routeIs('admin.postman.*')])>Postman interne</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button class="logout-button" type="submit">Déconnexion</button>
                     </form>
                 </nav>
             </aside>
-            <main class="content">
-                @include('partials.flash')
-                @yield('content')
+            <main class="content container-fluid">
+                <div class="content-inner">
+                    @include('partials.flash')
+                    @yield('content')
+                </div>
             </main>
         </div>
     @else
