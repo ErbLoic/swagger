@@ -1,3 +1,8 @@
+@import 'tailwindcss';
+
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
 :root {
     --bg: #f4f7fb;
     --panel: #ffffff;
