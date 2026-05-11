@@ -11,9 +11,7 @@ use App\Http\Controllers\Api\PersonalProjectApiController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('admin.dashboard');
-});
+Route::redirect('/', '/admin');
 
 Route::get('/api/manifest', ManifestController::class)->name('api.manifest');
 Route::get('/api/personal-projects', [PersonalProjectApiController::class, 'index'])->name('api.personal-projects.index');
